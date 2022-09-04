@@ -1,0 +1,10 @@
+name: Waypoint
+main: com.zakrzu.waypoints.WaypointsPlugin
+version: 1.0.0
+api-version: 1.19
+author: ZAKRZU
+commands:
+   waypoint:
+      description: Gives ability to save waypoints
+      usage: /waypoint
+      permission: waypoints.waypoint
