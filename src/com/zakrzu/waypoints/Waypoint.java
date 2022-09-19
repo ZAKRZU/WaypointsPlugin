@@ -36,7 +36,7 @@ public class Waypoint {
     public void setCreator(String creator) {
         this.creator = creator;
     }
-    
+
     public String getCreator() {
         return this.creator;
     }
@@ -58,15 +58,15 @@ public class Waypoint {
     }
 
     public String getCoordinates() {
-        return  "X:"+String.format("%.03f", this.location.getX())+
-                " Y:"+String.format("%.03f", this.location.getY())+
-                " Z:"+String.format("%.03f", this.location.getZ());
+        return "X:" + String.format("%.03f", this.location.getX()) +
+                " Y:" + String.format("%.03f", this.location.getY()) +
+                " Z:" + String.format("%.03f", this.location.getZ());
     }
 
     public String getRawCoordinates() {
-        return  String.format("%.03f", this.location.getX())+
-                " "+String.format("%.03f", this.location.getY())+
-                " "+String.format("%.03f", this.location.getZ());
+        return String.format("%.03f", this.location.getX()) +
+                " " + String.format("%.03f", this.location.getY()) +
+                " " + String.format("%.03f", this.location.getZ());
     }
 
 }
