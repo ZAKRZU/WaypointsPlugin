@@ -1,6 +1,6 @@
 package com.zakrzu.waypoints.Command;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,12 +9,12 @@ public class WaypointCmdBase {
 
     protected String cmd;
     protected String description;
-    protected HashMap<String, String> args;
-    protected HashMap<String, String> argsOptional;
+    protected ArrayList<String> args;
+    protected ArrayList<String> argsOptional;
 
     public WaypointCmdBase() {
-        this.args = new HashMap<>();
-        this.argsOptional = new HashMap<>();
+        this.args = new ArrayList<>();
+        this.argsOptional = new ArrayList<>();
     }
 
     public void setCmd(String newCmd) {
@@ -33,19 +33,19 @@ public class WaypointCmdBase {
         return this.description;
     }
 
-    public void addArg(String argName, String argType) {
-        this.args.put(argName, argType);
+    public void addArg(String argName) {
+        this.args.add(argName);
     }
 
-    public HashMap<String, String> getArgs() {
+    public ArrayList<String> getArgs() {
         return this.args;
     }
 
-    public void addOptionalArg(String argName, String argType) {
-        this.argsOptional.put(argName, argType);
+    public void addOptionalArg(String argName) {
+        this.argsOptional.add(argName);
     }
 
-    public HashMap<String, String> getOptionalArgs() {
+    public ArrayList<String> getOptionalArgs() {
         return this.argsOptional;
     }
 

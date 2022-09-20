@@ -13,8 +13,8 @@ public class WaypointCmdFilter extends WaypointCmdBase {
         super();
         this.setCmd("filter");
         this.setDescription("lists waypoints containing the word");
-        this.addArg("word", "String");
-        this.addOptionalArg("case sensitive", "Boolean");
+        this.addArg("word");
+        this.addOptionalArg("case sensitive");
     }
 
     @Override

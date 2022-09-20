@@ -9,7 +9,7 @@ public class WaypointCmdDelete extends WaypointCmdBase {
         super();
         this.setCmd("delete");
         this.setDescription("removes a waypoint from the list");
-        this.addArg("id", "Integer");
+        this.addArg("id");
     }
 
     @Override

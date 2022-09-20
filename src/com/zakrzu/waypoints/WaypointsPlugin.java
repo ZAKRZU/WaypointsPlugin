@@ -11,7 +11,9 @@ public class WaypointsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         db = new ConfigDatabase(this, this.getConfig());
-        this.getCommand("waypoint").setExecutor(new WaypointMainCommand(this));
+        WaypointMainCommand mainCmd = new WaypointMainCommand(this);
+        this.getCommand("waypoint").setExecutor(mainCmd);
+        this.getCommand("waypoint").setTabCompleter(mainCmd.getTabCompleter());
     }
 
     @Override

@@ -20,6 +20,6 @@ public class WaypointCmdVersion extends WaypointCmdBase {
         sender.sendMessage("Version: " + this.pdf.getVersion());
         sender.sendMessage("API Version: " + this.pdf.getAPIVersion());
         sender.sendMessage("Created by talented ZAKRZU (●'◡'●)");
-        return false;
+        return true;
     }
 }

@@ -16,7 +16,7 @@ public class WaypointCmdList extends WaypointCmdBase {
         this.pageSize = 5;
         this.setCmd("list");
         this.setDescription("displays a list of waypoints");
-        this.addOptionalArg("page", "Integer");
+        this.addOptionalArg("page");
     }
 
     @Override

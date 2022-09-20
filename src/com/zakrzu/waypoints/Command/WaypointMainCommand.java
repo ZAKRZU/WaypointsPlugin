@@ -12,17 +12,25 @@ import com.zakrzu.waypoints.WaypointsPlugin;
 public class WaypointMainCommand implements CommandExecutor {
 
     private ArrayList<WaypointCmdBase> cmds;
+    private WaypointTabCompleter tabCompleter;
     private PluginDescriptionFile pdf;
 
     public WaypointMainCommand(WaypointsPlugin wpl) {
         this.cmds = new ArrayList<>();
         this.pdf = wpl.getDescription();
+        this.tabCompleter = new WaypointTabCompleter(cmds);
         this.cmds.add(new WaypointCmdAdd());
         this.cmds.add(new WaypointCmdVersion(this.pdf));
         this.cmds.add(new WaypointCmdList());
         this.cmds.add(new WaypointCmdFilter());
         this.cmds.add(new WaypointCmdGet());
         this.cmds.add(new WaypointCmdDelete());
+        this.cmds.add(new WaypointCmdEdit());
+        this.cmds.add(new WaypointCmdTrack());
+    }
+
+    public WaypointTabCompleter getTabCompleter() {
+        return this.tabCompleter;
     }
 
     public void displayHelp(CommandSender sender, String typedCmd) {
@@ -30,10 +38,10 @@ public class WaypointMainCommand implements CommandExecutor {
         for (WaypointCmdBase waypointCmdBase : cmds) {
             String params = "";
             String optionalParams = "";
-            for (String param : waypointCmdBase.getArgs().keySet()) {
+            for (String param : waypointCmdBase.getArgs()) {
                 params += "<" + param + "> ";
             }
-            for (String param : waypointCmdBase.getOptionalArgs().keySet()) {
+            for (String param : waypointCmdBase.getOptionalArgs()) {
                 optionalParams += "[" + param + "] ";
             }
             sender.sendMessage("/" + typedCmd + " " + waypointCmdBase.getCmd() + " " + params + optionalParams + "- "
@@ -44,10 +52,10 @@ public class WaypointMainCommand implements CommandExecutor {
     public void displayCmdHelp(CommandSender sender, String typedCmd, WaypointCmdBase cmd) {
         String params = "";
         String optionalParams = "";
-        for (String param : cmd.getArgs().keySet()) {
+        for (String param : cmd.getArgs()) {
             params += "<" + param + "> ";
         }
-        for (String param : cmd.getOptionalArgs().keySet()) {
+        for (String param : cmd.getOptionalArgs()) {
             optionalParams += "[" + param + "] ";
         }
         sender.sendMessage("Usage: /" + typedCmd + " " + cmd.getCmd() + " " + params + optionalParams);
@@ -69,7 +77,7 @@ public class WaypointMainCommand implements CommandExecutor {
                     displayCmdHelp(sender, label, wpCmd);
                     if (wpCmd.getCmd().equals("filter")) {
                         // Should be fine by now
-                        sender.sendMessage(wpCmd.getOptionalArgs().keySet() + " can be true or false");
+                        sender.sendMessage(wpCmd.getOptionalArgs() + " can be true or false");
                     }
                     return true;
                 }

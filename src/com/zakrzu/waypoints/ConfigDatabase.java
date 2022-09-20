@@ -104,7 +104,10 @@ public class ConfigDatabase implements Database {
 
     @Override
     public boolean updateWaypoint(Waypoint location) {
-        waypoints.set(location.getId(), location);
+        for (Waypoint waypoint : waypoints) {
+            if (waypoint.getId() == location.getId())
+                waypoint = location;
+        }
         this.config.set("counter", location.getId() + 1);
         this.config.set("WAYPOINTS." + location.getId(), "");
         this.config.set("WAYPOINTS." + location.getId() + ".NAME", location.getName());

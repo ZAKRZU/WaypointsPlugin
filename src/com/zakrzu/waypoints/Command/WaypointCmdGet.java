@@ -12,7 +12,7 @@ public class WaypointCmdGet extends WaypointCmdBase {
         super();
         this.setCmd("get");
         this.setDescription("displays details about waypoint");
-        this.addArg("id | name", "Mixed");
+        this.addArg("id | name");
     }
 
     @Override

@@ -13,10 +13,10 @@ public class WaypointCmdAdd extends WaypointCmdBase {
         super();
         this.setCmd("add");
         this.setDescription("adds position to the list");
-        this.addArg("name", "String");
-        this.addOptionalArg("x", "Integer");
-        this.addOptionalArg("y", "Integer");
-        this.addOptionalArg("z", "Integer");
+        this.addArg("name");
+        this.addOptionalArg("x");
+        this.addOptionalArg("y");
+        this.addOptionalArg("z");
     }
 
     @Override
