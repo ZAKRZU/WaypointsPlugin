@@ -49,7 +49,10 @@ public class AddCommand extends BaseCommand {
         }
 
         Waypoint newWaypoint = new Waypoint(name, sender, loc);
-        WaypointsPlugin.getDatabase().addWaypoint(newWaypoint);
+        if (!WaypointsPlugin.getDatabase().addWaypoint(newWaypoint)) {
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Error occurred. Please contact server operator.");
+            return true;
+        }
         sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.GREEN + "Waypoint \"" + name + "\" has been added with id " + newWaypoint.getId());
         sender.sendMessage(newWaypoint.getCoordinates());
         return true;

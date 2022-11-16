@@ -30,6 +30,11 @@ public class FilterCommand extends BaseCommand {
         }
         String word = args[0];
         ArrayList<Waypoint> list = WaypointsPlugin.getDatabase().getFiltred(word, caseSensitive);
+        
+        if (list == null) {
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Error occurred. Please contact server operator.");
+            return true;
+        }
 
         if (list.size() < 1) {
             sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Waypoints not found");

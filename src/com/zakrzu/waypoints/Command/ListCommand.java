@@ -38,6 +38,12 @@ public class ListCommand extends BaseCommand {
             page = 0;
 
         ArrayList<Waypoint> waypoints = ((SQLiteDatabase) WaypointsPlugin.getDatabase()).getWaypoints(page * this.pageSize, this.pageSize);
+        
+        if (waypoints == null) {
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Error occurred. Please contact server operator.");
+            return true;
+        }
+
         if (waypoints.size() < 1) {
             sender.sendMessage("No waypoints has been saved!");
             return true;

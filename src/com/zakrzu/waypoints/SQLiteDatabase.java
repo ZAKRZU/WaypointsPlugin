@@ -10,7 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 public class SQLiteDatabase implements Database {
@@ -22,7 +24,7 @@ public class SQLiteDatabase implements Database {
 
         try (Connection conn = this.connect()) {
             DatabaseMetaData meta = conn.getMetaData();
-            System.out.println("[Waypoint] Using database driver " + meta.getDriverName());
+            Bukkit.getLogger().log(Level.INFO, "[Waypoint] Using database drive " + meta.getDriverName());
 
             String sql = "CREATE TABLE IF NOT EXISTS waypoints (\n"
                     + "     id integer PRIMARY KEY,\n"
@@ -35,10 +37,10 @@ public class SQLiteDatabase implements Database {
 
                 stmt.execute(sql);
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
         }
 
         this.loadWaypoints();
@@ -50,7 +52,7 @@ public class SQLiteDatabase implements Database {
         try {
             conn = DriverManager.getConnection(this.dbPath);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
         } finally {
             if (conn != null) {
                 return conn;
@@ -86,7 +88,7 @@ public class SQLiteDatabase implements Database {
                 Waypoint.count = rs.getInt(1);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
         }
         
     }
@@ -102,7 +104,7 @@ public class SQLiteDatabase implements Database {
                 waypoints.add(new Waypoint(rs.getInt("id"), rs.getString("name"), rs.getString("creator"), this.convertFromString(rs.getString("location"))));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return null;
         }
         return waypoints;
@@ -121,7 +123,7 @@ public class SQLiteDatabase implements Database {
                 waypoints.add(new Waypoint(rs.getInt("id"), rs.getString("name"), rs.getString("creator"), this.convertFromString(rs.getString("location"))));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return null;
         }
         return waypoints;
@@ -138,7 +140,7 @@ public class SQLiteDatabase implements Database {
                 return new Waypoint(rs.getInt("id"), rs.getString("name"), rs.getString("creator"), this.convertFromString(rs.getString("location")));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return null;
         }
         return null;
@@ -156,7 +158,7 @@ public class SQLiteDatabase implements Database {
                 waypoints.add(new Waypoint(rs.getInt("id"), rs.getString("name"), rs.getString("creator"), this.convertFromString(rs.getString("location"))));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return null;
         }
         return waypoints;
@@ -176,7 +178,7 @@ public class SQLiteDatabase implements Database {
                 location.setId(rs.getInt(1));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return false;
         }
         Waypoint.count++;
@@ -194,7 +196,7 @@ public class SQLiteDatabase implements Database {
             pstmt.setInt(4, location.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return false;
         }
         return true;
@@ -209,7 +211,7 @@ public class SQLiteDatabase implements Database {
             if (pstmt.executeUpdate() < 1)
                 return false;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return false;
         }
         Waypoint.count--;
@@ -234,7 +236,7 @@ public class SQLiteDatabase implements Database {
                     waypoints.add(waypoint);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Bukkit.getLogger().log(Level.SEVERE, e.getMessage());
             return null;
         }
         return waypoints;

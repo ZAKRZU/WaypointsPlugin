@@ -7,6 +7,9 @@ A plugin for the Minecraft Spigot server that allows you to save *waypoints*.
 - Minecraft Spigot 19.2-R0.1-SNAPSHOT
 
 # Changelog
+## 1.2.1
+- Replaced system logger with plugin logger
+- Added better error handling
 ## 1.2.0
 - Code base rewrite
 - Fixed memory leak

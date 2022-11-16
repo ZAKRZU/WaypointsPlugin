@@ -76,7 +76,7 @@ public class WaypointCommand implements CommandExecutor {
         for (String param : cmd.getOptionalArgs()) {
             optionalParams += "[" + param + "] ";
         }
-        sender.sendMessage("Usage: /" + typedCmd + " " + cmd.getCmd() + " " + params + optionalParams);
+        sender.sendMessage("Use: /" + typedCmd + " " + cmd.getCmd() + " " + params + optionalParams);
     }
 
     @Override

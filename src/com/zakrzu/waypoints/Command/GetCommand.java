@@ -34,7 +34,7 @@ public class GetCommand extends BaseCommand {
         }
 
         if (waypointsList.size() < 1) {
-            sender.sendMessage("Waypoint not found");
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Waypoint not found");
             return true;
         } else if (waypointsList.size() == 1) {
             sender.sendMessage(ChatColor.YELLOW + "--------------" + ChatColor.RESET 

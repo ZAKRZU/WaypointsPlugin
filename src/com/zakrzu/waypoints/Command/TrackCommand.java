@@ -1,5 +1,6 @@
 package com.zakrzu.waypoints.Command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -45,13 +46,13 @@ public class TrackCommand extends BaseCommand {
         try {
             id = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
-            sender.sendMessage(WaypointsPlugin.PREFIX + "Waypoint id must be a number!");
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Waypoint id must be a number!");
             return false;
         }
 
         wp = WaypointsPlugin.getDatabase().getById(id);
         if (wp == null) {
-            sender.sendMessage(WaypointsPlugin.PREFIX + "Waypoint with id " + id + " does not exist!");
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Waypoint with id " + id + " does not exist!");
             return false;
         }
         
