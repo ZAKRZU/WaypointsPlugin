@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class WaypointCmdBase {
+public class BaseCommand {
 
     protected String cmd;
     protected String description;
     protected ArrayList<String> args;
     protected ArrayList<String> argsOptional;
 
-    public WaypointCmdBase() {
+    public BaseCommand() {
         this.args = new ArrayList<>();
         this.argsOptional = new ArrayList<>();
     }

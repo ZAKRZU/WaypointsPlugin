@@ -7,6 +7,8 @@ public interface Database {
 
     public ArrayList<Waypoint> getWaypoints();
 
+    public ArrayList<Waypoint> getWaypoints(int pageNumber, int pageSize);
+
     public Waypoint getById(int id);
 
     public ArrayList<Waypoint> getByName(String name);

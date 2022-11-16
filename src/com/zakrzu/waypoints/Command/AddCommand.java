@@ -1,5 +1,6 @@
 package com.zakrzu.waypoints.Command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -7,9 +8,9 @@ import org.bukkit.entity.Player;
 import com.zakrzu.waypoints.Waypoint;
 import com.zakrzu.waypoints.WaypointsPlugin;
 
-public class WaypointCmdAdd extends WaypointCmdBase {
+public class AddCommand extends BaseCommand {
 
-    public WaypointCmdAdd() {
+    public AddCommand() {
         super();
         this.setCmd("add");
         this.setDescription("adds position to the list");
@@ -21,12 +22,16 @@ public class WaypointCmdAdd extends WaypointCmdBase {
 
     @Override
     public boolean execute(Player sender, String[] args) {
+        if (args.length < 1) {
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "You need to specify waypoint name!");
+            return false;
+        }
         String name = args[0];
         Location loc = sender.getLocation();
         // Creating location from your own coordinates
         if (args.length > 1 && args.length <= this.argsOptional.size() + this.args.size()) {
             if (args.length < this.argsOptional.size() + this.args.size()) {
-                sender.sendMessage("You need to specify <x> <y> and <z> coordinates!");
+                sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "You need to specify <x> <y> and <z> coordinates!");
                 return false;
             }
             double x, y, z = 0.0f;
@@ -35,7 +40,7 @@ public class WaypointCmdAdd extends WaypointCmdBase {
                 y = Integer.parseInt(args[2]);
                 z = Integer.parseInt(args[3]);
             } catch (NumberFormatException e) {
-                sender.sendMessage("Coordinate must be a number");
+                sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Coordinates must be numbers!");
                 return false;
             }
             loc.setX(x);
@@ -45,7 +50,7 @@ public class WaypointCmdAdd extends WaypointCmdBase {
 
         Waypoint newWaypoint = new Waypoint(name, sender, loc);
         WaypointsPlugin.getDatabase().addWaypoint(newWaypoint);
-        sender.sendMessage("Waypoint \"" + name + "\" added with id: " + newWaypoint.getId());
+        sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.GREEN + "Waypoint \"" + name + "\" has been added with id " + newWaypoint.getId());
         sender.sendMessage(newWaypoint.getCoordinates());
         return true;
     }
@@ -56,7 +61,7 @@ public class WaypointCmdAdd extends WaypointCmdBase {
             Player player = (Player) sender;
             return this.execute(player, args);
         } else {
-            sender.sendMessage("This command is for use ingame only!");
+            sender.sendMessage(WaypointsPlugin.PREFIX + "This command is for use ingame only!");
         }
         return true;
     }

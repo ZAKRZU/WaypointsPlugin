@@ -5,14 +5,14 @@ import org.bukkit.entity.Player;
 
 public class Waypoint {
 
-    public static int ids = 0;
+    public static int count = 0;
     private int id;
     private String creator;
     private Location location;
     private String name;
 
     public Waypoint(String name, Player creator, Location loc) {
-        this(Waypoint.ids++, name, creator, loc);
+        this(-1, name, creator, loc);
     }
 
     public Waypoint(int id, String name, Player creator, Location loc) {
@@ -31,6 +31,10 @@ public class Waypoint {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setCreator(String creator) {

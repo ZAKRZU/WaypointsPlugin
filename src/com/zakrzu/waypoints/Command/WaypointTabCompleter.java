@@ -9,9 +9,9 @@ import org.bukkit.command.TabCompleter;
 
 public class WaypointTabCompleter implements TabCompleter {
 
-    ArrayList<WaypointCmdBase> cmds;
+    ArrayList<BaseCommand> cmds;
 
-    public WaypointTabCompleter(ArrayList<WaypointCmdBase> cmds) {
+    public WaypointTabCompleter(ArrayList<BaseCommand> cmds) {
         this.cmds = cmds;
     }
 
@@ -19,7 +19,7 @@ public class WaypointTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         ArrayList<String> list = new ArrayList<>();
         if (args.length == 1) {
-            for (WaypointCmdBase wpCmd : cmds) {
+            for (BaseCommand wpCmd : cmds) {
                 if (wpCmd.getCmd().startsWith(args[args.length - 1])) {
                     list.add(wpCmd.getCmd());
                 }
@@ -28,7 +28,7 @@ public class WaypointTabCompleter implements TabCompleter {
                 }
             }
         } else if (args.length > 1) {
-            for (WaypointCmdBase wpCmd : cmds) {
+            for (BaseCommand wpCmd : cmds) {
                 if (args[0].equals(wpCmd.getCmd())) {
                     int argsPos = args.length - 2; // -1 becasue we count from 0, and -2 because first argument is cmd
                     if (wpCmd.getArgs().size() > 0 && wpCmd.getArgs().size() >= args.length - 1) {

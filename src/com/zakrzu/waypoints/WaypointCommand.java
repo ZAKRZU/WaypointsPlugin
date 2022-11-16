@@ -1,32 +1,44 @@
-package com.zakrzu.waypoints.Command;
+package com.zakrzu.waypoints;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import com.zakrzu.waypoints.WaypointsPlugin;
+import com.zakrzu.waypoints.Command.AddCommand;
+import com.zakrzu.waypoints.Command.BaseCommand;
+import com.zakrzu.waypoints.Command.ConvertCommand;
+import com.zakrzu.waypoints.Command.DeleteCommand;
+import com.zakrzu.waypoints.Command.EditCommand;
+import com.zakrzu.waypoints.Command.FilterCommand;
+import com.zakrzu.waypoints.Command.GetCommand;
+import com.zakrzu.waypoints.Command.ListCommand;
+import com.zakrzu.waypoints.Command.TrackCommand;
+import com.zakrzu.waypoints.Command.VersionCommand;
+import com.zakrzu.waypoints.Command.WaypointTabCompleter;
 
-public class WaypointMainCommand implements CommandExecutor {
+public class WaypointCommand implements CommandExecutor {
 
-    private ArrayList<WaypointCmdBase> cmds;
+    private ArrayList<BaseCommand> cmds;
     private WaypointTabCompleter tabCompleter;
     private PluginDescriptionFile pdf;
 
-    public WaypointMainCommand(WaypointsPlugin wpl) {
+    public WaypointCommand(WaypointsPlugin wpl) {
         this.cmds = new ArrayList<>();
         this.pdf = wpl.getDescription();
         this.tabCompleter = new WaypointTabCompleter(cmds);
-        this.cmds.add(new WaypointCmdAdd());
-        this.cmds.add(new WaypointCmdVersion(this.pdf));
-        this.cmds.add(new WaypointCmdList());
-        this.cmds.add(new WaypointCmdFilter());
-        this.cmds.add(new WaypointCmdGet());
-        this.cmds.add(new WaypointCmdDelete());
-        this.cmds.add(new WaypointCmdEdit());
-        this.cmds.add(new WaypointCmdTrack());
+        this.cmds.add(new AddCommand());
+        this.cmds.add(new VersionCommand(this.pdf));
+        this.cmds.add(new ListCommand());
+        this.cmds.add(new FilterCommand());
+        this.cmds.add(new GetCommand());
+        this.cmds.add(new DeleteCommand());
+        this.cmds.add(new EditCommand());
+        this.cmds.add(new TrackCommand());
+        this.cmds.add(new ConvertCommand(wpl));
     }
 
     public WaypointTabCompleter getTabCompleter() {
@@ -34,8 +46,14 @@ public class WaypointMainCommand implements CommandExecutor {
     }
 
     public void displayHelp(CommandSender sender, String typedCmd) {
-        sender.sendMessage("[Waypoints " + this.pdf.getVersion() + " by ZAKRZU] -- Showing help");
-        for (WaypointCmdBase waypointCmdBase : cmds) {
+        sender.sendMessage(ChatColor.YELLOW + "-----"
+                        + ChatColor.RESET + " ["
+                        + ChatColor.RED + "Waypoints " 
+                        + ChatColor.RESET + this.pdf.getVersion() 
+                        + " by "+ ChatColor.DARK_AQUA + ChatColor.BOLD +"ZAKRZU"
+                        + ChatColor.RESET + "] "
+                        + ChatColor.YELLOW + "-----");
+        for (BaseCommand waypointCmdBase : cmds) {
             String params = "";
             String optionalParams = "";
             for (String param : waypointCmdBase.getArgs()) {
@@ -44,12 +62,12 @@ public class WaypointMainCommand implements CommandExecutor {
             for (String param : waypointCmdBase.getOptionalArgs()) {
                 optionalParams += "[" + param + "] ";
             }
-            sender.sendMessage("/" + typedCmd + " " + waypointCmdBase.getCmd() + " " + params + optionalParams + "- "
+            sender.sendMessage(ChatColor.GOLD + "/" + typedCmd + " " + waypointCmdBase.getCmd() + " " + ChatColor.GRAY + params + ChatColor.DARK_GRAY + optionalParams + ChatColor.RESET + "- "
                     + waypointCmdBase.getDescription());
         }
     }
 
-    public void displayCmdHelp(CommandSender sender, String typedCmd, WaypointCmdBase cmd) {
+    public void displayCmdHelp(CommandSender sender, String typedCmd, BaseCommand cmd) {
         String params = "";
         String optionalParams = "";
         for (String param : cmd.getArgs()) {
@@ -63,8 +81,7 @@ public class WaypointMainCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        sender.sendMessage("");
-        for (WaypointCmdBase wpCmd : this.cmds) {
+        for (BaseCommand wpCmd : this.cmds) {
             // Security checks
             if (args.length < 1)
                 break;
@@ -72,17 +89,7 @@ public class WaypointMainCommand implements CommandExecutor {
                 break;
             // Get matching command
             if (wpCmd.getCmd().equals(args[0])) {
-                if (wpCmd.getArgs().size() > args.length - 1) {
-                    // Display help information about command
-                    displayCmdHelp(sender, label, wpCmd);
-                    if (wpCmd.getCmd().equals("filter")) {
-                        // Should be fine by now
-                        sender.sendMessage(wpCmd.getOptionalArgs() + " can be true or false");
-                    }
-                    return true;
-                }
-
-                // Prepare new arguemnt list
+                // Prepare new argument list
                 String[] cmdArgs = new String[args.length - 1];
                 for (int i = 0; i < args.length - 1; i++) {
                     cmdArgs[i] = args[i + 1];

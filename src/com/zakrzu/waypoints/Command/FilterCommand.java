@@ -2,14 +2,15 @@ package com.zakrzu.waypoints.Command;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.zakrzu.waypoints.Waypoint;
 import com.zakrzu.waypoints.WaypointsPlugin;
 
-public class WaypointCmdFilter extends WaypointCmdBase {
+public class FilterCommand extends BaseCommand {
 
-    public WaypointCmdFilter() {
+    public FilterCommand() {
         super();
         this.setCmd("filter");
         this.setDescription("lists waypoints containing the word");
@@ -21,7 +22,7 @@ public class WaypointCmdFilter extends WaypointCmdBase {
     public boolean execute(CommandSender sender, String[] args) {
         boolean caseSensitive = true;
         if (args.length < this.args.size()) {
-            sender.sendMessage("No word has been specified!");
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "No filter word has been specified!");
             return false;
         }
         if (args.length >= this.args.size() + this.argsOptional.size()) {
@@ -31,12 +32,16 @@ public class WaypointCmdFilter extends WaypointCmdBase {
         ArrayList<Waypoint> list = WaypointsPlugin.getDatabase().getFiltred(word, caseSensitive);
 
         if (list.size() < 1) {
-            sender.sendMessage("Waypoints not found");
+            sender.sendMessage(WaypointsPlugin.PREFIX + ChatColor.RED + "Waypoints not found");
             return true;
         }
-        sender.sendMessage("-- Waypoints --");
+        sender.sendMessage(ChatColor.YELLOW + "--------------" + ChatColor.RESET 
+                        + " [" + ChatColor.GOLD + "Waypoint"+ ChatColor.RESET +"] " 
+                        + ChatColor.YELLOW + "--------------");
         for (Waypoint waypoint : list) {
-            sender.sendMessage(waypoint.getId() + ". " + waypoint.getName() + " " + waypoint.getCoordinates());
+            sender.sendMessage(ChatColor.DARK_RED + "" + waypoint.getId() + ". " 
+                            + ChatColor.RESET + waypoint.getName() + " " 
+                            + ChatColor.GRAY + waypoint.getCoordinates());
         }
         return true;
     }

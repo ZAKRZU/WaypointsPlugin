@@ -7,6 +7,13 @@ A plugin for the Minecraft Spigot server that allows you to save *waypoints*.
 - Minecraft Spigot 19.2-R0.1-SNAPSHOT
 
 # Changelog
+## 1.2.0
+- Code base rewrite
+- Fixed memory leak
+- Added color support
+- Added SQLite support
+- SQLite is now default database engine (ConfigDatabase is deprecated and will be removed in the next version)
+- Added convert command that allows you to convert from old ConfigDatabase to new SQLite
 ## 1.1.0
 - Added simple tab completion system
 - Added tracking command (changes compass target)
